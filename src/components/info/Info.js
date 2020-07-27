@@ -83,7 +83,7 @@ class Info extends Component {
               color="#393939"
               height={120}
               width={120}
-              timeout={7000}
+              timeout={10000}
             />
           </div>
         )}
