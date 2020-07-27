@@ -1,0 +1,83 @@
+.loaderWrapper {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1100;
+    pointer-events: none;
+}
+
+.container {
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px 10px 20px 10px;
+    height: 100%;
+
+}
+
+.container h1 {
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.container h2 {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 8px;
+    color: rgba(39, 39, 39, .6);
+}
+
+.covidInfo {
+    width: 280px;
+    margin: 0 auto;
+    background: #fafafa;
+    box-shadow: 0 3px 4px rgba(0, 0, 0, .25), 0 2px 2px rgba(0, 0, 0, .08), 0 1px 1px rgba(0, 0, 0, .16);
+    transition: transform .2s linear;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.country {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 24px;
+    margin-bottom: 6px;
+
+}
+
+.covidInfo p {
+    color: #1254ce;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.covidInfo span {
+    color: #393939
+}
+
+@media (min-width: 768px) {
+    .container {
+        width: 600px;
+
+    }
+
+    .covidInfoWrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .covidInfo {
+        width: 100%;
+        padding: 20px 50px 20px 50px;
+    }
+
+    .country {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+}

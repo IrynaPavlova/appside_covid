@@ -1,0 +1,45 @@
+.covidInfo {
+    width: 280px;
+    margin: 0 auto;
+    background: #fafafa;
+    box-shadow: 0 3px 4px rgba(0, 0, 0, .25), 0 2px 2px rgba(0, 0, 0, .08), 0 1px 1px rgba(0, 0, 0, .16);
+    transition: transform .2s linear;
+    padding: 20px;
+}
+
+.country {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 24px;
+    margin-bottom: 6px;
+
+}
+
+.covidInfo p {
+    color: #1254ce;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.covidInfo span {
+    color: #393939
+}
+
+@media (min-width: 768px) {
+    .covidInfoWrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .covidInfo {
+        width: 580px;
+        padding: 20px 50px 20px 50px;
+    }
+
+    .country {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+}

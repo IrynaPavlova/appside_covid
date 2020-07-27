@@ -3,26 +3,26 @@ import services from "../../services/services";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import CountriesList from "../countriesList/countriesList";
-//import styles from "./info.module.css";
+import styles from "./info.module.css";
 import moment from "moment";
 
 class Info extends Component {
   state = {
-    country: "UA", //////!!!!!!!!!!!!!!!
+    country: "",
     data: [],
     info: [],
-    isLoading: false,
-    isOpen: false,
-    countryInfo: {}
+    isLoading: true,
+    countryInfo: {},
+    showModal: false
   };
 
   componentDidMount() {
-    //this.getPosition();
+    this.getPosition();
     this.getInfo();
   }
 
   getLocation(options) {
-    this.setState({ isLoading: true });
+    //this.setState({ isLoading: true });
     return new Promise(function(resolve, reject) {
       navigator.geolocation.getCurrentPosition(resolve, reject, options);
     });
@@ -33,7 +33,7 @@ class Info extends Component {
       .then(position => {
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
-
+        this.setState({ isLoading: true });
         services.getCountry(lat, lng).then(data => {
           this.setState({ data: data });
           const countryData = this.state.data;
@@ -50,33 +50,42 @@ class Info extends Component {
   }
 
   getInfo() {
-    this.setState({ isLoading: true }); ////!!!!!!
     services
       .getInfo()
       .then(data => this.setState({ info: data.data.Countries }));
-    this.setState({ isLoading: false }); /////!!!!!!
   }
 
   showInfo = e => {
     const [object] = this.state.info.filter(
       item => item.CountryCode === e.target.id
     );
-    this.setState({ isOpen: true, countryInfo: object });
-    //(state => ({ isOpen: !state.isOpen, countryInfo: object }));
+    this.setState({ countryInfo: object });
+  };
+
+  changeModal = () => {
+    this.setState(state => ({ showModal: !state.showModal }));
   };
   render() {
-    console.log("this.state", this.state);
-    const { isLoading, country, info, isOpen, countryInfo } = this.state;
+    const {
+      isLoading,
+      country,
+      info,
+      isOpen,
+      countryInfo,
+      showModal
+    } = this.state;
     return (
-      <div>
+      <div className={styles.container}>
         {isLoading && (
-          <Loader
-            type="ThreeDots"
-            color="#3f51b5"
-            height={80}
-            width={80}
-            timeout={3000}
-          />
+          <div className={styles.loaderWrapper}>
+            <Loader
+              type="ThreeDots"
+              color="#393939"
+              height={120}
+              width={120}
+              timeout={7000}
+            />
+          </div>
         )}
         {info !== [] &&
           country !== "" &&
@@ -84,24 +93,52 @@ class Info extends Component {
             elem =>
               elem.CountryCode.includes(`${country}`) && (
                 <div key={elem.CountryCode}>
-                  <h2>{elem.Country}</h2>
-
-                  <p>{moment(elem.Date).format("DD MMMM YYYY")}</p>
-                  <p>New Confirmed: {elem.NewConfirmed}</p>
-                  <p>New Deaths: {elem.NewDeaths}</p>
-                  <p>Total Confirmed: {elem.TotalConfirmed}</p>
-                  <p>Total Deaths: {elem.TotalDeaths}</p>
-                  <p>Total Recovered: {elem.TotalRecovered}</p>
+                  <h1>COVID info</h1>
+                  <h2>in your country:</h2>
+                  <div className={styles.covidInfo}>
+                    <h3 className={styles.country}>{elem.Country}</h3>
+                    <div className={styles.covidInfoWrapper}>
+                      <div>
+                        <p>{moment(elem.Date).format("DD MMMM YYYY")}</p>
+                        <p>
+                          <span>New Confirmed: </span>
+                          {elem.NewConfirmed}
+                        </p>
+                        <p>
+                          <span>New Deaths: </span>
+                          {elem.NewDeaths}
+                        </p>
+                      </div>
+                      <div>
+                        <p>
+                          <span>Total Confirmed: </span>
+                          {elem.TotalConfirmed}
+                        </p>
+                        <p>
+                          <span>Total Deaths: </span>
+                          {elem.TotalDeaths}
+                        </p>
+                        <p>
+                          <span>Total Recovered: </span>
+                          {elem.TotalRecovered}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               )
           )}
 
-        <CountriesList
-          countries={info}
-          showInfo={this.showInfo}
-          isOpen={isOpen}
-          countryInfo={countryInfo}
-        />
+        {!isLoading && (
+          <CountriesList
+            countries={info}
+            showInfo={this.showInfo}
+            isOpen={isOpen}
+            countryInfo={countryInfo}
+            showModal={showModal}
+            changeModal={this.changeModal}
+          />
+        )}
       </div>
     );
   }
