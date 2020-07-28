@@ -133,7 +133,7 @@ class Info extends Component {
               )
           )}
 
-        {!isLoading && (
+        {!isLoading && info !== [] && (
           <CountriesList
             countries={info}
             showInfo={this.showInfo}
