@@ -22,9 +22,13 @@ class Info extends Component {
   }
 
   getLocation(options) {
-    //this.setState({ isLoading: true });
+    this.setState({ isLoading: true });
     return new Promise(function(resolve, reject) {
-      navigator.geolocation.getCurrentPosition(resolve, reject, options);
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(resolve, reject, options);
+      } else {
+        alert("Geolocation is not supported by this browser");
+      }
     });
   }
 
